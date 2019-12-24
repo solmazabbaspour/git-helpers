@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Find which is your current branch
+if currentBranch=$(git symbolic-ref --short -q HEAD)
+protectedBranch=master
+then
+    echo On branch "$currentBranch"
+
+    echo "Checkout $protectedBranch"
+    # Checkout the master branch
+    git checkout $protectedBranch
+
+    echo "Prune remote"
+    git remote prune origin
+
+    # Get all branches that have been deleted
+    BRANCHES=($(git branch -vv | grep gone | awk '{print $1}'))
+    for branch in "${BRANCHES[@]}"; do
+      if [[ $branch != $protectedBranch ]]; then
+
+        read -r  -p "Delete $branch branch? (y/n) " DELETE
+        if [[ $DELETE = "y" ]]; then
+          git branch -D $branch
+        fi
+      fi
+    done
+
+else
+    echo ERROR: Cannot find the current branch!
+fi
