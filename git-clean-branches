@@ -23,7 +23,7 @@ then
           git branch -D $branch
         fi
       fi
-      echo -e "Done with branch cleanup"
+      echo "Done with branch cleanup"
     done
 
 else
