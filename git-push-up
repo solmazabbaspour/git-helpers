@@ -2,9 +2,8 @@
 
 # Find which is your current branch
 if currentBranch=$(git symbolic-ref --short -q HEAD)
-protectedBranch=master
 then
-    echo On branch "$currentBranch"
+    echo On branch "$currentBranch pushing up stream"
     git push -u origin $currentBranch
 else
     echo ERROR: Cannot find the current branch!
